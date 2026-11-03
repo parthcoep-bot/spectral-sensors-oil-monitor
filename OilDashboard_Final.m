@@ -1,7 +1,7 @@
 classdef OilDashboard_Final < matlab.apps.AppBase
 % =========================================================
 %  TAKUMI-TYPE — Smart Oil Condition Monitor
-%  COEP Technological University | Department of Metallurgical Engineering
+%  COEP Technological University | Department of Metallurgy and Materials Engineering
 %  Sensors: TSL25911 (Optical) | DS18B20 (Temp) | SS49E (Hall)
 %  Parameters: Oxidation | Soot | Oil Temp | Metal Particles
 %  B.Tech Mini Project Thesis
