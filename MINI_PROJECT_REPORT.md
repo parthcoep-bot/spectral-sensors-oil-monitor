@@ -1,5 +1,5 @@
 # COEP TECHNOLOGICAL UNIVERSITY, PUNE
-### Department of Metallurgical Engineering
+### Department of Metallurgy and Materials Engineering
 *(An Autonomous Institute of the Government of Maharashtra)*
 
 ---
@@ -11,15 +11,19 @@
 *Development of Phase Change Material for Thermal Energy Storage for Hybrid PVT System*
 
 **Submitted in partial fulfillment of the requirements for the award of the degree of**  
-**BACHELOR OF TECHNOLOGY IN METALLURGICAL ENGINEERING**
+**BACHELOR OF TECHNOLOGY IN METALLURGY AND MATERIALS ENGINEERING**
 
 **Submitted by:**  
-**PARTH RAMESH SHINDE**  
-**MIS: 642511003**  
+| Sr. | Name of Student | MIS / Roll No. | Role in Project |
+| :---: | :--- | :---: | :--- |
+| **1** | **Parth Ramesh Shinde** | **642511003** | **Lead / Sensor Integration & Telemetry** |
+| **2** | [Student Name 2] | [MIS No.] | Firmware & Telemetry Dashboard |
+| **3** | [Student Name 3] | [MIS No.] | Probe Design & CAD Modeling |
+| **4** | [Student Name 4] | [MIS No.] | Testing & Documentation |  
 
 **Under the Guidance of:**  
 Faculty Project Guide, Associate Professor / Professor  
-Department of Metallurgical Engineering  
+Department of Metallurgy and Materials Engineering  
 
 **Semester:** Fifth Semester | **Academic Year:** 2024–2025  
 Shivajinagar, Pune – 411005, Maharashtra, India  
@@ -27,20 +31,20 @@ Shivajinagar, Pune – 411005, Maharashtra, India
 ---
 
 ## CERTIFICATE OF APPROVAL
-This is to certify that the mini-project titled **"TAKUMI-TYPE: DEVELOPMENT OF IN-SITU MULTI-SPECTRAL OIL CONDITION MONITOR FOR THERMAL ENERGY STORAGE AND HYBRID PVT SYSTEMS"** is a bona fide record of original technical research carried out by **Parth Ramesh Shinde (MIS: 642511003)** under my direct supervision and guidance at the Department of Metallurgical Engineering, COEP Technological University, Pune, in partial fulfillment of the requirements for the award of the Degree of Bachelor of Technology in Metallurgical Engineering during the academic year 2024–2025.
+This is to certify that the mini-project titled **"TAKUMI-TYPE: DEVELOPMENT OF IN-SITU MULTI-SPECTRAL OIL CONDITION MONITOR FOR THERMAL ENERGY STORAGE AND HYBRID PVT SYSTEMS"** is a bona fide record of original technical research carried out by **Parth Ramesh Shinde (MIS: 642511003)** under my direct supervision and guidance at the Department of Metallurgy and Materials Engineering, COEP Technological University, Pune, in partial fulfillment of the requirements for the award of the Degree of Bachelor of Technology in Metallurgical Engineering during the academic year 2024–2025.
 
 The results embodied in this report have been verified and have not been submitted to any other University or Institute for the award of any other degree or diploma.
 
 <br><br>
 ______________________________ &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; ______________________________  
 **Faculty Project Guide** &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; **Head of Department**  
-Dept. of Metallurgical Engineering &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Dept. of Metallurgical Engineering  
+Dept. of Metallurgy and Materials Engineering &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Dept. of Metallurgy and Materials Engineering  
 COEP Technological University, Pune &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; COEP Technological University, Pune  
 
 ---
 
 ## CANDIDATE DECLARATION
-I hereby declare that the mini-project report entitled **"TAKUMI-TYPE: DEVELOPMENT OF IN-SITU MULTI-SPECTRAL OIL CONDITION MONITOR FOR THERMAL ENERGY STORAGE AND HYBRID PVT SYSTEMS"**, submitted to the Department of Metallurgical Engineering, COEP Technological University, Pune, is an authentic record of original research, embedded firmware engineering, and telemetry instrumentation conducted solely by me under the mentorship of my faculty guide.
+I hereby declare that the mini-project report entitled **"TAKUMI-TYPE: DEVELOPMENT OF IN-SITU MULTI-SPECTRAL OIL CONDITION MONITOR FOR THERMAL ENERGY STORAGE AND HYBRID PVT SYSTEMS"**, submitted to the Department of Metallurgy and Materials Engineering, COEP Technological University, Pune, is an authentic record of original research, embedded firmware engineering, and telemetry instrumentation conducted solely by me under the mentorship of my faculty guide.
 
 I have strictly adhered to all academic integrity norms. All primary and secondary literature, hardware datasheets, and external scientific protocols cited herein have been comprehensively acknowledged and credited in the references section in accordance with standard IEEE citation protocol.
 
@@ -49,15 +53,15 @@ I have strictly adhered to all academic integrity norms. All primary and seconda
 <br>
 ___________________________________ &emsp;&emsp; Date: __________________  
 **Parth Ramesh Shinde (MIS: 642511003)**  
-B.Tech. Metallurgical Engineering  
+B.Tech. Metallurgy and Materials Engineering  
 COEP Technological University, Pune  
 
 ---
 
 ## ACKNOWLEDGMENTS
-First and foremost, I express my profound gratitude to my project guide, Department of Metallurgical Engineering, COEP Technological University, Pune, for their invaluable intellectual guidance, continuous encouragement, and constructive critique throughout the conceptualization, embedded hardware prototyping, and telemetry dashboard development of this project.
+First and foremost, I express my profound gratitude to my project guide, Department of Metallurgy and Materials Engineering, COEP Technological University, Pune, for their invaluable intellectual guidance, continuous encouragement, and constructive critique throughout the conceptualization, embedded hardware prototyping, and telemetry dashboard development of this project.
 
-I extend my sincere thanks to the Head of the Department of Metallurgical Engineering for providing access to laboratory facilities, precision analytical instruments, and departmental testing resources. I am also thankful to the laboratory technical staff for their assistance during testing with standardized lubricant samples and high-temperature thermal loops.
+I extend my sincere thanks to the Head of the Department of Metallurgy and Materials Engineering for providing access to laboratory facilities, precision analytical instruments, and departmental testing resources. I am also thankful to the laboratory technical staff for their assistance during testing with standardized lubricant samples and high-temperature thermal loops.
 
 Finally, I express my deepest gratitude to my parents and peers for their continuous moral support and encouragement throughout this academic endeavor.
 
@@ -190,6 +194,22 @@ The processing core utilizes an **ESP32 NodeMCU** (32-bit Xtensa dual-core @ 240
   ```
 
 ---
+
+### 3.3 CAD Mechanical Probe Architecture & Sensor Mounting Bracket
+The physical probe housing was modelled in Autodesk Fusion as a sealed immersion cylindrical casing fabricated from turned aluminium / SS316L, equipped with internal mounting channels for sensor PCBs, rare-earth bias magnet placement, and an optical quartz window.
+
+![Figure 3.1: 3D CAD Isometric View of SensorMounting Probe](file:///c:/Users/Admin/Spectral%20Sensors/report_images/probe_cad_isometric.jpg)
+*Figure 3.1: 3D CAD Isometric View of the SensorMounting Probe Housing and Mounting Bracket.*
+
+![Figure 3.2: Top Isometric View of Sensor Bracket & Sensing Chamber](file:///c:/Users/Admin/Spectral%20Sensors/report_images/probe_cad_top_view.jpg)
+*Figure 3.2: Top Isometric View detailing internal sensor mounting channels and fluid flow chamber.*
+
+![Figure 3.3: Front Orthographic Projection of Sensor Rails](file:///c:/Users/Admin/Spectral%20Sensors/report_images/probe_cad_front_view.jpg)
+*Figure 3.3: Front Orthographic CAD View of SensorMountingBracket showing transducer positioning rails.*
+
+![Figure 3.4: Side View of Probe Housing highlighting Optical Window](file:///c:/Users/Admin/Spectral%20Sensors/report_images/probe_cad_side_view.jpg)
+*Figure 3.4: Side Elevation of the Probe Housing highlighting the square optical transmission aperture.*
+
 
 ## CHAPTER 4: SOFTWARE ARCHITECTURE, MATLAB DASHBOARD AND WEB TELEMETRY
 
