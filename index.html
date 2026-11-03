@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TAKUMI-TYPE · SMART OIL CONDITION MONITOR | COEP TECH · MINI PROJECT THESIS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700;800&family=Outfit:wght@700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      /* ═══ CLEAN PROFESSIONAL WHITE / LIGHT PALETTE ═══ */
+      --bg-page: #f1f5f9;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f8fafc;
+      --border: #cbd5e1;
+      --border-bright: #94a3b8;
+      --border-subtle: #e2e8f0;
+
+      --brand-blue: #1e3a8a;
+      --brand-blue-accent: #2563eb;
+      --brand-cyan: #0284c7;
+
+      --status-good: #059669;
+      --status-good-bg: #ecfdf5;
+      --status-good-border: #a7f3d0;
+
+      --status-mod: #d17206;
+      --status-mod-bg: #fffbeb;
+      --status-mod-border: #fde68a;
+
+      --status-poor: #dc2626;
+      --status-poor-bg: #fef2f2;
+      --status-poor-border: #fecaca;
+
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --text-dim: #94a3b8;
+
+      --radius-lg: 12px;
+      --radius-md: 8px;
+      --radius-sm: 6px;
+      --shadow-card: 0 4px 14px -2px rgba(15, 23, 42, 0.07), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+      --shadow-card-hover: 0 10px 24px -4px rgba(15, 23, 42, 0.12), 0 4px 8px -2px rgba(15, 23, 42, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      background-image:
+        radial-gradient(circle at 10% 10%, rgba(37, 99, 235, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(5, 150, 105, 0.04) 0%, transparent 40%),
+        linear-gradient(to bottom, #f8fafc 0%, #f1f5f9 100%);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      padding: 16px 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ═══════ HEADER BAR ═══════ */
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px 22px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+
+    .brand-icon svg {
+      width: 26px;
+      height: 26px;
+      fill: #ffffff;
+    }
+
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      color: var(--brand-blue);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-title span.tag {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: var(--brand-blue-accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.8px;
+    }
+
+    .brand-subtitle {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-top: 3px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .brand-subtitle .sep {
+      color: var(--border-bright);
+    }
+
+    .brand-subtitle .highlight {
+      color: var(--brand-blue);
+      font-weight: 800;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 16px;
+      border-radius: 20px;
+      background: var(--status-good-bg);
+      border: 1px solid var(--status-good-border);
+      color: var(--status-good);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+    }
+
+    .status-badge.stopped {
+      background: var(--status-poor-bg);
+      border-color: var(--status-poor-border);
+      color: var(--status-poor);
+    }
+
+    .pulse-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 8px currentColor;
+      animation: pulse 1.8s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.4;
+        transform: scale(0.8);
+      }
+    }
+
+    .telemetry-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      background: #f8fafc;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+
+    /* ═══════ OVERALL STATUS BANNER ═══════ */
+    .overall-banner {
+      background: var(--status-good-bg);
+      border: 1px solid var(--status-good-border);
+      border-left: 8px solid var(--status-good);
+      border-radius: var(--radius-md);
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      box-shadow: var(--shadow-card);
+      transition: all 0.3s ease;
+    }
+
+    .overall-banner.moderate {
+      background: var(--status-mod-bg);
+      border-color: var(--status-mod-border);
+      border-left-color: var(--status-mod);
+    }
+
+    .overall-banner.poor {
+      background: var(--status-poor-bg);
+      border-color: var(--status-poor-border);
+      border-left-color: var(--status-poor);
+      animation: alertPulse 2s infinite alternate;
+    }
+
+    @keyframes alertPulse {
+      from {
+        box-shadow: 0 0 10px rgba(220, 38, 38, 0.15);
+      }
+
+      to {
+        box-shadow: 0 0 20px rgba(220, 38, 38, 0.35);
+      }
+    }
+
+    .overall-content {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .overall-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--status-good);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      box-shadow: 0 3px 8px rgba(5, 150, 105, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .overall-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .overall-heading {
+      font-size: 1.05rem;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      color: var(--text-primary);
+    }
+
+    .overall-sub {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .overall-chips {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 6px;
+      color: var(--text-secondary);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+    }
+
+    .chip span {
+      color: var(--brand-blue-accent);
+      font-weight: 800;
+    }
+
+    /* ═══════ 4 PARAMETER CARDS ═══════ */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 1200px) {
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 680px) {
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .param-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px 16px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .param-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-card-hover);
+      border-color: var(--border-bright);
+    }
+
+    .param-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--card-accent, var(--brand-blue-accent));
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    .param-card-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 4px;
+    }
+
+    .param-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .param-name {
+      font-size: 0.98rem;
+      font-weight: 900;
+      color: var(--text-primary);
+      letter-spacing: 0.4px;
+    }
+
+    .param-astm {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 1px;
+    }
+
+    .param-lamp {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--status-good);
+      box-shadow: 0 0 8px rgba(5, 150, 105, 0.4);
+      transition: all 0.3s ease;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* Gauge Container */
+    .gauge-wrapper {
+      position: relative;
+      width: 220px;
+      height: 125px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      margin: 8px 0 2px;
+    }
+
+    .gauge-svg {
+      width: 220px;
+      height: 125px;
+      overflow: visible;
+    }
+
+    .gauge-bg {
+      fill: none;
+      stroke: #e2e8f0;
+      stroke-width: 15;
+      stroke-linecap: round;
+    }
+
+    .gauge-band {
+      fill: none;
+      stroke-width: 15;
+      stroke-linecap: butt;
+    }
+
+    .gauge-needle {
+      transform-origin: 110px 115px;
+      transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+    }
+
+    .gauge-needle-polygon {
+      fill: #0f172a;
+      filter: drop-shadow(0 2px 3px rgba(15, 23, 42, 0.3));
+    }
+
+    .gauge-pivot {
+      fill: #1e3a8a;
+      stroke: #ffffff;
+      stroke-width: 2.5;
+    }
+
+    /* Card Value Readout */
+    .value-display {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .value-number {
+      font-family: 'Outfit', 'JetBrains Mono', monospace;
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+    }
+
+    .value-unit {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-top: 3px;
+    }
+
+    /* Card Footer Info */
+    .card-footer {
+      width: 100%;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ref-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: var(--brand-blue);
+      background: #f1f5f9;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    .cond-badge {
+      font-size: 0.78rem;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.6px;
+      background: var(--status-good-bg);
+      color: var(--status-good);
+      border: 1px solid var(--status-good-border);
+      transition: all 0.3s ease;
+    }
+
+    .cond-badge.moderate {
+      background: var(--status-mod-bg);
+      color: var(--status-mod);
+      border-color: var(--status-mod-border);
+    }
+
+    .cond-badge.poor {
+      background: var(--status-poor-bg);
+      color: var(--status-poor);
+      border-color: var(--status-poor-border);
+    }
+
+    /* ═══════ VISUALIZATION & RAW SENSOR ROW ═══════ */
+    .vis-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 290px;
+      gap: 16px;
+    }
+
+    @media (max-width: 1100px) {
+      .vis-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .raw-panel {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .vis-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .raw-panel {
+        grid-column: span 1;
+      }
+    }
+
+    .chart-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-card);
+    }
+
+    .chart-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chart-title {
+      font-size: 0.92rem;
+      font-weight: 900;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.4px;
+    }
+
+    .chart-title svg {
+      stroke: var(--brand-blue);
+    }
+
+    .chart-legend {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.74rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-secondary);
+    }
+
+    .legend-color {
+      width: 12px;
+      height: 4px;
+      border-radius: 2px;
+    }
+
+    .canvas-container {
+      width: 100%;
+      height: 200px;
+      position: relative;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+
+    /* Raw Sensor Telemetry Panel */
+    .raw-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-card);
+    }
+
+    .raw-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 6px;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    .raw-item {
+      background: #f8fafc;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 7px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+    }
+
+    .raw-label {
+      color: var(--brand-blue);
+      font-weight: 700;
+    }
+
+    .raw-val {
+      color: var(--text-primary);
+      font-weight: 900;
+    }
+
+    /* ═══════ FOOTER & CONTROLS ═══════ */
+    .bottom-section {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px 22px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .btn-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 0.84rem;
+      padding: 9px 20px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      filter: grayscale(0.6);
+    }
+
+    .btn-start {
+      background: var(--status-good);
+      color: #ffffff;
+    }
+
+    .btn-start:hover:not(:disabled) {
+      background: #047857;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(5, 150, 105, 0.3);
+    }
+
+    .btn-stop {
+      background: var(--status-poor);
+      color: #ffffff;
+    }
+
+    .btn-stop:hover:not(:disabled) {
+      background: #b91c1c;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(220, 38, 38, 0.3);
+    }
+
+    .btn-export {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      color: var(--brand-blue);
+    }
+
+    .btn-export:hover:not(:disabled) {
+      background: #e2e8f0;
+      border-color: var(--brand-blue);
+    }
+
+    /* Scenario Selector Pills */
+    .scenarios-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .scenario-title {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 800;
+      margin-right: 4px;
+      letter-spacing: 0.6px;
+    }
+
+    .scenario-btn {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.4px;
+    }
+
+    .scenario-btn:hover {
+      border-color: var(--brand-blue-accent);
+      color: var(--brand-blue-accent);
+    }
+
+    .scenario-btn.active {
+      background: #eff6ff;
+      border-color: var(--brand-blue-accent);
+      color: var(--brand-blue);
+      box-shadow: 0 0 0 1px var(--brand-blue-accent);
+    }
+
+    /* Equations & Thresholds Strip */
+    .equations-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-subtle);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .equations-text {
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .equations-text b {
+      color: var(--brand-blue);
+    }
+
+    .threshold-tags {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .t-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 800;
+    }
+
+    .t-tag.good {
+      color: var(--status-good);
+    }
+
+    .t-tag.mod {
+      color: var(--status-mod);
+    }
+
+    .t-tag.poor {
+      color: var(--status-poor);
+    }
+
+    .t-sq {
+      width: 8px;
+      height: 8px;
+      background: currentColor;
+      border-radius: 2px;
+    }
+
+    .hardware-footer {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border-subtle);
+    }
+
+    .hardware-footer b {
+      color: var(--brand-blue);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header-bar">
+    <div class="header-brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+        </svg>
+      </div>
+      <div>
+        <div class="brand-title">
+          TAKUMI-TYPE
+          <span class="tag">SMART OIL MONITOR</span>
+        </div>
+        <div class="brand-subtitle">
+          <span class="highlight">COEP TECHNOLOGICAL UNIVERSITY</span>
+          <span class="sep">·</span>
+          <span>DEPARTMENT OF METALLURGICAL ENGINEERING</span>
+          <span class="sep">·</span>
+          <span class="highlight">PARTH RAMESH SHINDE (MIS: 642511003)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-controls">
+      <div class="status-badge" id="statusBadge">
+        <div class="pulse-dot"></div>
+        <span id="statusText">LIVE MONITORING ACTIVE</span>
+      </div>
+      <div class="telemetry-time" id="telemetryTime">
+        SAMPLE #0 · --:--:--
+      </div>
+    </div>
+  </header>
+
+  <!-- DOMAIN TOPIC ALIGNMENT BAR -->
+  <div style="background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 0.8rem; box-shadow: var(--shadow-card);">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1e3a8a; font-weight: 800; padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace;">DOMAIN TOPIC</span>
+      <span style="color: var(--text-primary); font-weight: 700;">DEVELOPMENT OF PHASE CHANGE MATERIAL FOR THERMAL ENERGY STORAGE FOR HYBRID PVT SYSTEM</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); font-weight: 700;">
+      <span>STUDENT: <b style="color: var(--brand-blue);">PARTH RAMESH SHINDE</b></span>
+      <span style="color: var(--border-bright);">|</span>
+      <span>MIS: <b style="color: var(--brand-blue);">642511003</b></span>
+    </div>
+  </div>
+
+  <!-- OVERALL STATUS BANNER -->
+  <section class="overall-banner" id="overallBanner">
+    <div class="overall-content">
+      <div class="overall-icon" id="overallIcon">✓</div>
+      <div class="overall-text">
+        <div class="overall-heading" id="overallHeading">OVERALL STATUS: GOOD — OIL CONDITION HEALTHY &amp; WITHIN ASTM
+          E2412 LIMITS</div>
+        <div class="overall-sub" id="overallSub">ALL OPTICAL, THERMAL, AND FERROUS WEAR PROXIES CONFORM TO SAFETY
+          TOLERANCES.</div>
+      </div>
+    </div>
+    <div class="overall-chips">
+      <div class="chip">HEALTH SCORE: <span id="healthScore">96%</span></div>
+      <div class="chip">RUL ESTIMATE: <span id="rulHours">240 HRS</span></div>
+      <div class="chip">SPECTRA: <span id="specStatus">CLEAN IR RATIO</span></div>
+    </div>
+  </section>
+
+  <!-- 4 PARAMETER CARDS -->
+  <main class="cards-grid">
+
+    <!-- Card 1: Oxidation Index -->
+    <div class="param-card" style="--card-accent: #0284c7;">
+      <div class="param-card-header">
+        <div class="param-meta">
+          <div class="param-name">OXIDATION INDEX</div>
+          <div class="param-astm">ASTM E2412 (CH1/CH0)</div>
+        </div>
+        <div class="param-lamp" id="lampOx"></div>
+      </div>
+
+      <div class="gauge-wrapper">
+        <svg class="gauge-svg" viewBox="0 0 220 130">
+          <path class="gauge-band" d="M 25 115 A 85 85 0 0 1 76 41" stroke="#059669" />
+          <path class="gauge-band" d="M 76 41 A 85 85 0 0 1 157 49" stroke="#d97706" />
+          <path class="gauge-band" d="M 157 49 A 85 85 0 0 1 195 115" stroke="#dc2626" />
+          <g class="gauge-needle" id="needleOx">
+            <polygon class="gauge-needle-polygon" points="107,115 113,115 110,32" />
+            <circle class="gauge-pivot" cx="110" cy="115" r="7" />
+          </g>
+        </svg>
+      </div>
+
+      <div class="value-display">
+        <div class="value-number" id="valOx">0.2450</div>
+        <div class="value-unit">CH1/CH0 RATIO (IR / FULL SPECTRUM)</div>
+      </div>
+
+      <div class="card-footer">
+        <div class="ref-val">REF &lt; 0.30</div>
+        <div class="cond-badge" id="condOx">GOOD</div>
+      </div>
+    </div>
+
+    <!-- Card 2: Soot Level -->
+    <div class="param-card" style="--card-accent: #d97706;">
+      <div class="param-card-header">
+        <div class="param-meta">
+          <div class="param-name">SOOT LEVEL</div>
+          <div class="param-astm">TGA / ASTM E2412 PROXY</div>
+        </div>
+        <div class="param-lamp" id="lampSoot"></div>
+      </div>
+
+      <div class="gauge-wrapper">
+        <svg class="gauge-svg" viewBox="0 0 220 130">
+          <path class="gauge-band" d="M 25 115 A 85 85 0 0 1 68 47" stroke="#059669" />
+          <path class="gauge-band" d="M 68 47 A 85 85 0 0 1 143 43" stroke="#d97706" />
+          <path class="gauge-band" d="M 143 43 A 85 85 0 0 1 195 115" stroke="#dc2626" />
+          <g class="gauge-needle" id="needleSoot">
+            <polygon class="gauge-needle-polygon" points="107,115 113,115 110,32" />
+            <circle class="gauge-pivot" cx="110" cy="115" r="7" />
+          </g>
+        </svg>
+      </div>
+
+      <div class="value-display">
+        <div class="value-number" id="valSoot">1.45</div>
+        <div class="value-unit">INDEX (0 – 10 SCALE)</div>
+      </div>
+
+      <div class="card-footer">
+        <div class="ref-val">REF &lt; 2.5</div>
+        <div class="cond-badge" id="condSoot">GOOD</div>
+      </div>
+    </div>
+
+    <!-- Card 3: Oil Temperature -->
+    <div class="param-card" style="--card-accent: #2563eb;">
+      <div class="param-card-header">
+        <div class="param-meta">
+          <div class="param-name">OIL TEMPERATURE</div>
+          <div class="param-astm">DS18B20 1-WIRE DIGITAL PROBE</div>
+        </div>
+        <div class="param-lamp" id="lampTemp"></div>
+      </div>
+
+      <div class="gauge-wrapper">
+        <svg class="gauge-svg" viewBox="0 0 220 130">
+          <path class="gauge-band" d="M 25 115 A 85 85 0 0 1 125 31" stroke="#059669" />
+          <path class="gauge-band" d="M 125 31 A 85 85 0 0 1 172 65" stroke="#d97706" />
+          <path class="gauge-band" d="M 172 65 A 85 85 0 0 1 195 115" stroke="#dc2626" />
+          <g class="gauge-needle" id="needleTemp">
+            <polygon class="gauge-needle-polygon" points="107,115 113,115 110,32" />
+            <circle class="gauge-pivot" cx="110" cy="115" r="7" />
+          </g>
+        </svg>
+      </div>
+
+      <div class="value-display">
+        <div class="value-number" id="valTemp">82.4</div>
+        <div class="value-unit">°C (NOMINAL ENGINE RANGE)</div>
+      </div>
+
+      <div class="card-footer">
+        <div class="ref-val">NORMAL &lt; 100°C</div>
+        <div class="cond-badge" id="condTemp">NORMAL</div>
+      </div>
+    </div>
+
+    <!-- Card 4: Metal Particles -->
+    <div class="param-card" style="--card-accent: #dc2626;">
+      <div class="param-card-header">
+        <div class="param-meta">
+          <div class="param-name">METAL PARTICLES</div>
+          <div class="param-astm">SS49E LINEAR HALL SENSOR</div>
+        </div>
+        <div class="param-lamp" id="lampMetal"></div>
+      </div>
+
+      <div class="gauge-wrapper">
+        <svg class="gauge-svg" viewBox="0 0 220 130">
+          <path class="gauge-band" d="M 25 115 A 85 85 0 0 1 60 55" stroke="#059669" />
+          <path class="gauge-band" d="M 60 55 A 85 85 0 0 1 143 43" stroke="#d97706" />
+          <path class="gauge-band" d="M 143 43 A 85 85 0 0 1 195 115" stroke="#dc2626" />
+          <g class="gauge-needle" id="needleMetal">
+            <polygon class="gauge-needle-polygon" points="107,115 113,115 110,32" />
+            <circle class="gauge-pivot" cx="110" cy="115" r="7" />
+          </g>
+        </svg>
+      </div>
+
+      <div class="value-display">
+        <div class="value-number" id="valMetal">0.68</div>
+        <div class="value-unit">INDEX (0 – 10 FERROUS DEBRIS)</div>
+      </div>
+
+      <div class="card-footer">
+        <div class="ref-val">REF &lt; 2.0</div>
+        <div class="cond-badge" id="condMetal">GOOD</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- CHARTS & TELEMETRY ROW -->
+  <section class="vis-grid">
+
+    <!-- Trend Chart -->
+    <div class="chart-panel">
+      <div class="chart-panel-header">
+        <div class="chart-title">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2.5">
+            <path d="M3 3v18h18" />
+            <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
+          </svg>
+          LIVE TELEMETRY TREND (LAST 60 SAMPLES)
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item">
+            <div class="legend-color" style="background: #059669;"></div>OXIDATION (0-1)
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #d97706;"></div>SOOT /10
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #dc2626;"></div>METAL /10
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #2563eb;"></div>TEMP °C
+          </div>
+        </div>
+      </div>
+      <div class="canvas-container">
+        <canvas id="trendCanvas"></canvas>
+      </div>
+    </div>
+
+    <!-- Normalized Snapshot Bar Chart -->
+    <div class="chart-panel">
+      <div class="chart-panel-header">
+        <div class="chart-title">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2.5">
+            <path d="M12 20V10M18 20V4M6 20v-4" />
+          </svg>
+          PARAMETER SNAPSHOT
+        </div>
+        <div style="font-size: 0.74rem; color: #dc2626; font-family: 'JetBrains Mono', monospace; font-weight: 800;">
+          THRESHOLD: 0.55
+        </div>
+      </div>
+      <div class="canvas-container">
+        <canvas id="barCanvas"></canvas>
+      </div>
+    </div>
+
+    <!-- Raw Sensor Telemetry Panel -->
+    <div class="raw-panel">
+      <div class="chart-panel-header">
+        <div class="chart-title">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2.5">
+            <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+            <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
+            <line x1="6" y1="6" x2="6.01" y2="6" />
+            <line x1="6" y1="18" x2="6.01" y2="18" />
+          </svg>
+          RAW SENSOR READOUTS
+        </div>
+      </div>
+      <div class="raw-list">
+        <div class="raw-item">
+          <span class="raw-label">TSL CH0 (FULL):</span>
+          <span class="raw-val" id="rawCH0">3,240</span>
+        </div>
+        <div class="raw-item">
+          <span class="raw-label">TSL CH1 (IR):</span>
+          <span class="raw-val" id="rawCH1">978</span>
+        </div>
+        <div class="raw-item">
+          <span class="raw-label">CALCULATED LUX:</span>
+          <span class="raw-val" id="rawLux">2,410 LX</span>
+        </div>
+        <div class="raw-item">
+          <span class="raw-label">SS49E HALL VOLT:</span>
+          <span class="raw-val" id="rawHall">1.658 V</span>
+        </div>
+        <div class="raw-item">
+          <span class="raw-label">DS18B20 TEMP:</span>
+          <span class="raw-val" id="rawTemp">82.4 °C</span>
+        </div>
+        <div class="raw-item">
+          <span class="raw-label">THERMAL FACTOR (TC):</span>
+          <span class="raw-val" id="rawTc">1.344</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- BOTTOM CONTROLS, SCENARIOS & EQUATIONS -->
+  <footer class="bottom-section">
+    <div class="controls-row">
+      <div class="btn-group">
+        <button class="btn btn-start" id="btnStart" onclick="startMonitoring()">
+          ▶ START MONITORING
+        </button>
+        <button class="btn btn-stop" id="btnStop" onclick="stopMonitoring()">
+          ■ STOP MONITORING
+        </button>
+        <button class="btn btn-export" id="btnExport" onclick="exportCSV()">
+          ⬇ EXPORT CSV TELEMETRY
+        </button>
+      </div>
+
+      <!-- Live Demo Scenario Switcher for Mini Project Presentation -->
+      <div class="scenarios-group">
+        <span class="scenario-title">DEMO PRESETS:</span>
+        <button class="scenario-btn active" onclick="setScenario('fresh')">🟢 FRESH OIL</button>
+        <button class="scenario-btn" onclick="setScenario('oxidized')">🟠 OXIDIZED OIL</button>
+        <button class="scenario-btn" onclick="setScenario('soot')">⚫ SOOT LOADED</button>
+        <button class="scenario-btn" onclick="setScenario('metal')">⚙️ METAL WEAR</button>
+        <button class="scenario-btn" onclick="setScenario('critical')">🚨 CRITICAL ALARM</button>
+      </div>
+    </div>
+
+    <div class="equations-strip">
+      <div class="equations-text">
+        <b>MATHEMATICAL FORMULATIONS:</b>
+        OX = (CH1/CH0) ÷ (1+0.006×(T−25)) [ASTM E2412] ·
+        SOOT = (1−LUX/LUX₀)×10 [TGA PROXY] ·
+        METAL = |V_HALL−1.65|×80 [SS49E LINEAR HALL]
+      </div>
+      <div class="threshold-tags">
+        <span class="t-tag good"><span class="t-sq"></span>GOOD: OX&lt;0.30 | SOOT&lt;2.5 | T&lt;100°C |
+          METAL&lt;2.0</span>
+        <span class="t-tag mod"><span class="t-sq"></span>MODERATE: OX&lt;0.55 | SOOT&lt;5.0 | T&lt;120°C |
+          METAL&lt;5.0</span>
+        <span class="t-tag poor"><span class="t-sq"></span>POOR: EXCEEDS LIMITS</span>
+      </div>
+    </div>
+
+    <div class="hardware-footer">
+      <span><b>RESEARCHER:</b> PARTH RAMESH SHINDE (MIS: 642511003) · DEPT OF METALLURGICAL ENGINEERING · COEP TECH</span>
+      <span><b>SENSORS:</b> WAVESHARE TSL25911 OPTICAL (I²C 0x29) · DS18B20 DIGITAL TEMP · SS49E LINEAR HALL · ESP32
+        DUAL-CORE MCU</span>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT SIMULATION, CHARTS & GAUGE LOGIC -->
+  <script>
+    // ══════ STATE & DATA BUFFERS ══════
+    let isRunning = true;
+    let timerId = null;
+    let sampleCount = 0;
+    const MAX_POINTS = 60;
+
+    let historyOx = [];
+    let historySoot = [];
+    let historyTemp = [];
+    let historyMetal = [];
+    let historyTime = [];
+
+    // Current preset scenario
+    let currentScenario = 'fresh';
+
+    // ══════ SCENARIO BASELINE GENERATORS ══════
+    const scenarios = {
+      fresh: {
+        ch0: () => 3200 + randn() * 60,
+        ch1: () => 920 + randn() * 25,
+        lux: () => Math.max(1, 2650 + randn() * 80),
+        vHall: () => 1.65 + randn() * 0.008,
+        temp: () => 82.0 + randn() * 1.0,
+      },
+      oxidized: {
+        ch0: () => 2900 + randn() * 70,
+        ch1: () => 1850 + randn() * 50,  // Higher IR absorption relative to CH0
+        lux: () => Math.max(1, 2100 + randn() * 90),
+        vHall: () => 1.65 + randn() * 0.015,
+        temp: () => 88.0 + randn() * 1.5,
+      },
+      soot: {
+        ch0: () => 1400 + randn() * 90,
+        ch1: () => 550 + randn() * 35,
+        lux: () => Math.max(1, 850 + randn() * 60), // Heavy lux drop
+        vHall: () => 1.66 + randn() * 0.02,
+        temp: () => 92.0 + randn() * 2.0,
+      },
+      metal: {
+        ch0: () => 3100 + randn() * 60,
+        ch1: () => 950 + randn() * 30,
+        lux: () => Math.max(1, 2400 + randn() * 70),
+        vHall: () => 1.74 + randn() * 0.025, // Voltage deviation from 1.65V
+        temp: () => 85.0 + randn() * 1.5,
+      },
+      critical: {
+        ch0: () => 1100 + randn() * 80,
+        ch1: () => 1050 + randn() * 60, // Severe IR absorption
+        lux: () => Math.max(1, 400 + randn() * 50),
+        vHall: () => 1.78 + randn() * 0.03, // Severe magnetic deviation
+        temp: () => 126.0 + randn() * 2.5, // Overheating
+      }
+    };
+
+    function randn() {
+      let u = 0, v = 0;
+      while (u === 0) u = Math.random();
+      while (v === 0) v = Math.random();
+      return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+    }
+
+    // ══════ CONDITION LOGIC ══════
+    function getCondition(param, val) {
+      if (param === 'Ox') {
+        if (val <= 0.30) return { lbl: 'GOOD', cls: 'good', color: '#059669' };
+        if (val <= 0.55) return { lbl: 'MODERATE', cls: 'moderate', color: '#d97706' };
+        return { lbl: 'POOR', cls: 'poor', color: '#dc2626' };
+      }
+      if (param === 'Soot') {
+        if (val <= 2.5) return { lbl: 'GOOD', cls: 'good', color: '#059669' };
+        if (val <= 5.0) return { lbl: 'MODERATE', cls: 'moderate', color: '#d97706' };
+        return { lbl: 'POOR', cls: 'poor', color: '#dc2626' };
+      }
+      if (param === 'Temp') {
+        if (val <= 100) return { lbl: 'NORMAL', cls: 'good', color: '#059669' };
+        if (val <= 120) return { lbl: 'HIGH', cls: 'moderate', color: '#d97706' };
+        return { lbl: 'CRITICAL', cls: 'poor', color: '#dc2626' };
+      }
+      if (param === 'Metal') {
+        if (val <= 2.0) return { lbl: 'GOOD', cls: 'good', color: '#059669' };
+        if (val <= 5.0) return { lbl: 'MODERATE', cls: 'moderate', color: '#d97706' };
+        return { lbl: 'POOR', cls: 'poor', color: '#dc2626' };
+      }
+    }
+
+    // Map a value to needle angle (-90deg to +90deg)
+    function valueToAngle(val, minVal, maxVal) {
+      const norm = Math.max(0, Math.min(1, (val - minVal) / (maxVal - minVal)));
+      return -90 + norm * 180;
+    }
+
+    // ══════ UPDATE DASHBOARD TICK ══════
+    function updateDashboard() {
+      sampleCount++;
+
+      const gen = scenarios[currentScenario];
+      const CH0 = gen.ch0();
+      const CH1 = gen.ch1();
+      const Lux = gen.lux();
+      const V_hall = gen.vHall();
+      const Temp = gen.temp();
+
+      // Correlation Equations
+      const tc = 1 + 0.006 * (Temp - 25);
+      const rawOx = (CH0 > 0) ? (CH1 / Math.max(CH0, 1)) : 0;
+      const Ox = Math.max(0, rawOx / tc);
+
+      const Lux_clean = 2800;
+      const Soot = Math.max(0, Math.min(10, (1 - (Lux / Lux_clean)) * 10));
+
+      const V_null = 1.65;
+      const Metal = Math.min(10, Math.max(0, Math.abs(V_hall - V_null) * 80));
+
+      // Update Numerical Fields
+      document.getElementById('valOx').innerText = Ox.toFixed(4);
+      document.getElementById('valSoot').innerText = Soot.toFixed(2);
+      document.getElementById('valTemp').innerText = Temp.toFixed(1);
+      document.getElementById('valMetal').innerText = Metal.toFixed(2);
+
+      // Update Needles
+      document.getElementById('needleOx').style.transform = `rotate(${valueToAngle(Ox, 0, 1)}deg)`;
+      document.getElementById('needleSoot').style.transform = `rotate(${valueToAngle(Soot, 0, 10)}deg)`;
+      document.getElementById('needleTemp').style.transform = `rotate(${valueToAngle(Temp, 0, 150)}deg)`;
+      document.getElementById('needleMetal').style.transform = `rotate(${valueToAngle(Metal, 0, 10)}deg)`;
+
+      // Update Badges & Lamps
+      const cOx = getCondition('Ox', Ox);
+      const cSoot = getCondition('Soot', Soot);
+      const cTemp = getCondition('Temp', Temp);
+      const cMetal = getCondition('Metal', Metal);
+
+      updateCardStatus('Ox', cOx);
+      updateCardStatus('Soot', cSoot);
+      updateCardStatus('Temp', cTemp);
+      updateCardStatus('Metal', cMetal);
+
+      // Overall Evaluation
+      updateOverallBanner(cOx, cSoot, cTemp, cMetal, Ox, Soot, Temp, Metal);
+
+      // Raw Telemetry Update
+      document.getElementById('rawCH0').innerText = Math.round(CH0).toLocaleString();
+      document.getElementById('rawCH1').innerText = Math.round(CH1).toLocaleString();
+      document.getElementById('rawLux').innerText = Lux.toFixed(0) + ' LX';
+      document.getElementById('rawHall').innerText = V_hall.toFixed(3) + ' V';
+      document.getElementById('rawTemp').innerText = Temp.toFixed(1) + ' °C';
+      document.getElementById('rawTc').innerText = tc.toFixed(3);
+
+      // Timestamp Update
+      const now = new Date();
+      const timeStr = now.toTimeString().split(' ')[0];
+      document.getElementById('telemetryTime').innerText = `SAMPLE #${sampleCount} · ${timeStr}`;
+
+      // Push to History
+      historyOx.push(Ox);
+      historySoot.push(Soot);
+      historyTemp.push(Temp);
+      historyMetal.push(Metal);
+      historyTime.push(sampleCount);
+
+      if (historyOx.length > MAX_POINTS) {
+        historyOx.shift();
+        historySoot.shift();
+        historyTemp.shift();
+        historyMetal.shift();
+        historyTime.shift();
+      }
+
+      // Re-render Canvases
+      renderTrendChart();
+      renderBarChart(Ox, Soot, Temp, Metal);
+    }
+
+    function updateCardStatus(name, cond) {
+      const badge = document.getElementById(`cond${name}`);
+      const lamp = document.getElementById(`lamp${name}`);
+      badge.innerText = cond.lbl;
+      badge.className = `cond-badge ${cond.cls}`;
+      lamp.style.background = cond.color;
+      lamp.style.boxShadow = `0 0 8px ${cond.color}`;
+    }
+
+    function updateOverallBanner(cOx, cSoot, cTemp, cMetal, Ox, Soot, Temp, Metal) {
+      const banner = document.getElementById('overallBanner');
+      const icon = document.getElementById('overallIcon');
+      const heading = document.getElementById('overallHeading');
+      const sub = document.getElementById('overallSub');
+      const healthScoreEl = document.getElementById('healthScore');
+      const rulEl = document.getElementById('rulHours');
+      const specEl = document.getElementById('specStatus');
+
+      const isPoor = [cOx, cSoot, cTemp, cMetal].some(c => c.cls === 'poor');
+      const isMod = [cOx, cSoot, cTemp, cMetal].some(c => c.cls === 'moderate');
+
+      if (isPoor) {
+        banner.className = 'overall-banner poor';
+        icon.innerText = '!';
+        icon.style.background = 'var(--status-poor)';
+        heading.innerText = 'OVERALL STATUS: POOR — IMMEDIATE OIL SERVICE REQUIRED';
+        sub.innerText = 'CRITICAL TELEMETRY BOUNDARY EXCEEDED. HIGH RISK OF BEARING FATIGUE / DEBRIS CORROSION.';
+        healthScoreEl.innerText = `${Math.max(15, Math.round(48 - (Ox * 30 + Soot * 2 + Metal * 3)))}%`;
+        healthScoreEl.style.color = 'var(--status-poor)';
+        rulEl.innerText = '< 25 HRS';
+        specEl.innerText = 'SEVERE DEGRADE';
+      } else if (isMod) {
+        banner.className = 'overall-banner moderate';
+        icon.innerText = '▲';
+        icon.style.background = 'var(--status-mod)';
+        heading.innerText = 'OVERALL STATUS: MODERATE — PREVENTIVE INSPECTION ADVISED';
+        sub.innerText = 'OIL DEGRADATION DETECTED. RESIDUAL ADDITIVE CONSUMPTION APPROACHING WARNING MARGINS.';
+        healthScoreEl.innerText = `${Math.max(62, Math.round(85 - (Ox * 20 + Soot * 2)))}%`;
+        healthScoreEl.style.color = 'var(--status-mod)';
+        rulEl.innerText = '110 HRS';
+        specEl.innerText = 'MILD IR ABSORPTION';
+      } else {
+        banner.className = 'overall-banner';
+        icon.innerText = '✓';
+        icon.style.background = 'var(--status-good)';
+        heading.innerText = 'OVERALL STATUS: GOOD — OIL CONDITION HEALTHY & WITHIN ASTM E2412 LIMITS';
+        sub.innerText = 'ALL OPTICAL, THERMAL, AND FERROUS WEAR PROXIES CONFORM TO SAFETY TOLERANCES.';
+        healthScoreEl.innerText = '96%';
+        healthScoreEl.style.color = 'var(--status-good)';
+        rulEl.innerText = '240 HRS';
+        specEl.innerText = 'CLEAN IR RATIO';
+      }
+    }
+
+    // ══════ CANVAS CHART RENDERING (LIGHT THEME) ══════
+    const trendCanvas = document.getElementById('trendCanvas');
+    const tCtx = trendCanvas.getContext('2d');
+    const barCanvas = document.getElementById('barCanvas');
+    const bCtx = barCanvas.getContext('2d');
+
+    function resizeCanvases() {
+      const dpr = window.devicePixelRatio || 1;
+
+      const tRect = trendCanvas.parentElement.getBoundingClientRect();
+      trendCanvas.width = tRect.width * dpr;
+      trendCanvas.height = tRect.height * dpr;
+      tCtx.scale(dpr, dpr);
+
+      const bRect = barCanvas.parentElement.getBoundingClientRect();
+      barCanvas.width = bRect.width * dpr;
+      barCanvas.height = bRect.height * dpr;
+      bCtx.scale(dpr, dpr);
+
+      renderTrendChart();
+    }
+    window.addEventListener('resize', resizeCanvases);
+
+    function renderTrendChart() {
+      const w = trendCanvas.parentElement.clientWidth;
+      const h = trendCanvas.parentElement.clientHeight;
+      if (!w || !h) return;
+
+      tCtx.clearRect(0, 0, w, h);
+
+      // Margins
+      const padL = 40;
+      const padR = 46;
+      const padT = 18;
+      const padB = 26;
+      const plotW = w - padL - padR;
+      const plotH = h - padT - padB;
+
+      // Draw Grid Lines (Light Theme)
+      tCtx.strokeStyle = '#e2e8f0';
+      tCtx.lineWidth = 1;
+
+      for (let i = 0; i <= 4; i++) {
+        const y = padT + (plotH / 4) * i;
+        tCtx.beginPath();
+        tCtx.moveTo(padL, y);
+        tCtx.lineTo(padL + plotW, y);
+        tCtx.stroke();
+
+        // Left labels (0 to 1.0)
+        tCtx.fillStyle = '#64748b';
+        tCtx.font = 'bold 9px JetBrains Mono';
+        tCtx.textAlign = 'right';
+        tCtx.fillText((1.0 - i * 0.25).toFixed(2), padL - 6, y + 3);
+
+        // Right labels (0 to 150 °C)
+        tCtx.fillStyle = '#2563eb';
+        tCtx.textAlign = 'left';
+        tCtx.fillText(Math.round(150 - i * 37.5) + '°C', padL + plotW + 6, y + 3);
+      }
+
+      if (historyOx.length < 2) return;
+
+      // Function to plot a series
+      function drawSeries(data, color, isDashed, yScaleFn) {
+        tCtx.save();
+        tCtx.strokeStyle = color;
+        tCtx.lineWidth = 2.4;
+        if (isDashed) tCtx.setLineDash([4, 4]);
+
+        tCtx.beginPath();
+        for (let i = 0; i < data.length; i++) {
+          const x = padL + (i / (MAX_POINTS - 1)) * plotW;
+          const y = padT + plotH - (yScaleFn(data[i]) * plotH);
+          if (i === 0) tCtx.moveTo(x, y);
+          else tCtx.lineTo(x, y);
+        }
+        tCtx.stroke();
+        tCtx.restore();
+      }
+
+      // Plot curves
+      drawSeries(historyOx, '#059669', false, v => Math.min(1, Math.max(0, v)));
+      drawSeries(historySoot, '#d97706', true, v => Math.min(1, Math.max(0, v / 10)));
+      drawSeries(historyMetal, '#dc2626', true, v => Math.min(1, Math.max(0, v / 10)));
+      drawSeries(historyTemp, '#2563eb', false, v => Math.min(1, Math.max(0, v / 150)));
+    }
+
+    function renderBarChart(ox, soot, temp, metal) {
+      const w = barCanvas.parentElement.clientWidth;
+      const h = barCanvas.parentElement.clientHeight;
+      if (!w || !h) return;
+
+      bCtx.clearRect(0, 0, w, h);
+
+      const padL = 32;
+      const padR = 16;
+      const padT = 20;
+      const padB = 30;
+      const plotW = w - padL - padR;
+      const plotH = h - padT - padB;
+
+      // Warning Line at 0.55
+      const warnY = padT + plotH - (0.55 * plotH);
+      bCtx.strokeStyle = 'rgba(220, 38, 38, 0.6)';
+      bCtx.lineWidth = 1.5;
+      bCtx.setLineDash([4, 4]);
+      bCtx.beginPath();
+      bCtx.moveTo(padL, warnY);
+      bCtx.lineTo(padL + plotW, warnY);
+      bCtx.stroke();
+      bCtx.setLineDash([]);
+
+      const data = [
+        { label: 'OX', val: Math.min(1, ox), color: '#059669' },
+        { label: 'SOOT', val: Math.min(1, soot / 10), color: '#d97706' },
+        { label: 'TEMP', val: Math.min(1, temp / 150), color: '#2563eb' },
+        { label: 'METAL', val: Math.min(1, metal / 10), color: '#dc2626' }
+      ];
+
+      const barCount = 4;
+      const gap = 16;
+      const barW = (plotW - (barCount - 1) * gap) / barCount;
+
+      data.forEach((d, i) => {
+        const x = padL + i * (barW + gap);
+        const barH = d.val * plotH;
+        const y = padT + plotH - barH;
+
+        // Bar with clean crisp fill
+        bCtx.fillStyle = d.color;
+        bCtx.beginPath();
+        bCtx.roundRect(x, y, barW, barH, [4, 4, 0, 0]);
+        bCtx.fill();
+
+        // Value text above bar
+        bCtx.fillStyle = '#0f172a';
+        bCtx.font = 'bold 10px JetBrains Mono';
+        bCtx.textAlign = 'center';
+        bCtx.fillText((d.val).toFixed(2), x + barW / 2, y - 5);
+
+        // Label below bar
+        bCtx.fillStyle = '#475569';
+        bCtx.font = 'bold 10px Inter';
+        bCtx.fillText(d.label, x + barW / 2, padT + plotH + 16);
+      });
+    }
+
+    // ══════ CONTROLS ══════
+    function startMonitoring() {
+      if (isRunning) return;
+      isRunning = true;
+      timerId = setInterval(updateDashboard, 1000);
+      document.getElementById('btnStart').disabled = true;
+      document.getElementById('btnStop').disabled = false;
+
+      const badge = document.getElementById('statusBadge');
+      badge.className = 'status-badge';
+      document.getElementById('statusText').innerText = 'LIVE MONITORING ACTIVE';
+    }
+
+    function stopMonitoring() {
+      if (!isRunning) return;
+      isRunning = false;
+      clearInterval(timerId);
+      document.getElementById('btnStart').disabled = false;
+      document.getElementById('btnStop').disabled = true;
+
+      const badge = document.getElementById('statusBadge');
+      badge.className = 'status-badge stopped';
+      document.getElementById('statusText').innerText = 'MONITORING PAUSED';
+    }
+
+    function setScenario(sc) {
+      currentScenario = sc;
+      document.querySelectorAll('.scenario-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      updateDashboard();
+    }
+
+    function exportCSV() {
+      if (historyOx.length === 0) {
+        alert('NO DATA POINTS RECORDED YET.');
+        return;
+      }
+      let csv = 'SAMPLE,OXIDATION_INDEX,SOOT_INDEX,TEMPERATURE_C,METAL_INDEX\n';
+      for (let i = 0; i < historyOx.length; i++) {
+        csv += `${historyTime[i]},${historyOx[i].toFixed(4)},${historySoot[i].toFixed(2)},${historyTemp[i].toFixed(1)},${historyMetal[i].toFixed(2)}\n`;
+      }
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.setAttribute('href', url);
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+      a.setAttribute('download', `TAKUMI_OIL_TELEMETRY_${timestamp}.csv`);
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    // ══════ INITIALIZATION ══════
+    window.addEventListener('DOMContentLoaded', () => {
+      resizeCanvases();
+      // Seed initial history
+      for (let i = 0; i < 25; i++) {
+        updateDashboard();
+      }
+      timerId = setInterval(updateDashboard, 1000);
+      document.getElementById('btnStart').disabled = true;
+    });
+  </script>
+</body>
+
+</html>
